@@ -118,6 +118,8 @@ export class DemographicComponent
   config = {};
   consentMessage = [];
   titleOnError = "";
+  loggedInId= "";
+  loggedInEmail: boolean;
   dateOfBirthFieldId = "";
   isNavigateToDemographic = false;
   _moment = moment;
@@ -206,6 +208,15 @@ export class DemographicComponent
       if (this.isConsentMessage)
         this.consentDeclaration(); 
     }
+    this.loggedInId = localStorage.getItem("loginId");
+            console.log("logged in id", this.loggedInId);
+            let emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        //     this.transUserForm.patchValue({email: this.loggedInId})
+            if(emailRegex.test(this.loggedInId)){
+            this.userForm.patchValue({email: this.loggedInId})
+            }else{
+            this.userForm.patchValue({phone: this.loggedInId})
+            }
     this.onChangeHandler("");
     if (this.readOnlyMode) {
       this.userForm.disable();
@@ -427,8 +438,9 @@ export class DemographicComponent
         this.showPreviewButton = true;
       }
 
-      this.loginId = localStorage.getItem("loginId");
+      //this.loginId = localStorage.getItem("loginId");
     }
+    this.loginId = localStorage.getItem("loginId");
   }
 
   getPreRegId() {
@@ -2282,4 +2294,16 @@ export class DemographicComponent
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
+  openPopupModify() {
+                  const body = {
+                        case: "MESSAGE",
+                        title: "SUCCESS",
+                        message: "Data has been modified and saved successfully.",
+                      };
+                      this.dialog.open(DialougComponent, {
+                        width: "400px",
+                        data: body,
+                      });
+                    }
+
 }

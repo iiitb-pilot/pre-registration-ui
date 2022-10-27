@@ -320,7 +320,7 @@
       {{demographiclabels.action_continue}}
     </button>
     <button *ngIf="showPreviewButton" class="user__btn" type="button" [disabled]="!dataUploadComplete"
-      (click)="onSubmit()">
+      (click)="onSubmit();openPopupModify()">
       {{demographiclabels.action_preview}}
     </button>
   </div>
