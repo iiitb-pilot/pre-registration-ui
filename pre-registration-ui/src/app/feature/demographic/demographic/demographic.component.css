@@ -299,7 +299,7 @@ mat-icon {
 } 
 
 .required-annotation {
-  color: white;
+  color: red;
   margin-left: 3px;
 }
 
@@ -385,16 +385,22 @@ mat-icon {
 }
 .fieldHeader {
   width: 400px;
+  font-weight: 600;
+  color: black;
+  /* width: 400px;
   color: white;
   min-height: 40px;
   padding: 10px;
-  background-color:rgb(11, 106, 130) ;
+  background-color:rgb(11, 106, 130) ;*/
 }
 .fieldContent {
-  padding: 10px;
-  width: 400px;
-  box-shadow: 1px 1px 1px 1px #ccc;  /*Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5*/
+     width: 400px;
+     /*padding: 10px;
+      width: 400px;
+      box-shadow: 1px 1px 1px 1px #ccc;  /*Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5*/
 }
+
+
 .selectedOption {
   margin: 10px;
 }
