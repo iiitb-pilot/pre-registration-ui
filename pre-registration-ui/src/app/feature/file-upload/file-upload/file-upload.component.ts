@@ -1570,6 +1570,17 @@ export class FileUploadComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
+  openPopupModify() {
+        const body = {
+           case: "MESSAGE",
+           title: "SUCCESS",
+           message: "Data has been modified and saved successfully.",
+                      };
+           this.dialog.open(DialougComponent, {
+            width: "400px",
+             data: body,
+              });
+              }
 }
 
 export interface DocumentUploadRequestDTO {
