@@ -17,16 +17,18 @@
             previewLabels.action_modify }}</span>
         </div>
       </div> -->
-      <div class="preview__header">
-        <span>{{ previewLabels.title_preview }}&nbsp;(<span *ngFor="let dataCaptureLang of dataCaptureLanguagesLabels;index as labelsIndex">
+    <table class="preview__header">
+      <tr>
+        <td><span>{{ previewLabels.title_preview }}&nbsp;(<span *ngFor="let dataCaptureLang of dataCaptureLanguagesLabels;index as labelsIndex">
           <span [dir]="userPrefLanguageDir">&nbsp;{{dataCaptureLang}}&nbsp;</span>
-        </span>)</span>
-        <span [ngStyle]="userPrefLanguageDir == 'ltr'? {'float': 'right'} : {'float': 'left'}">
+        </span>)</span></td>
+        <td><span>{{ previewLabels.label_pre_id }}&nbsp;: &nbsp;{{ preRegId }}</span></td>
+        <td><span [ngStyle]="userPrefLanguageDir == 'ltr'? {'float': 'right'} : {'float': 'left'}">
           <span *ngIf="!readOnlyMode" (click)="modifyDemographic()" class="preview__modify-file"
-            matTooltip="{{ helpText.modify_at_DemoPreview }}"><img src="assets/edit.png" /> {{
-            previewLabels.action_modify }}</span>
-        </span>
-      </div>
+                matTooltip="{{ helpText.modify_at_DemoPreview }}"><img src="assets/edit.png" /> {{
+            previewLabels.action_modify }}</span></span></td>
+      </tr>
+    </table>
     <!-- </mat-card-header> -->
     <mat-card-content [dir]="dataCaptureLangsDir[0]">
       <div class="preview__body-content-container">
@@ -97,6 +99,9 @@
   <span class="spacer"></span>
   <button matTooltip="{{ helpText.add_applicant }}" (click)="onNewApplication()" class="user__btn user__btn-action">
     {{ previewLabels.action_add_applicant }}
+  </button>
+  <button (click)="navigateDashboard()" class="user__btn user__btn-action">
+    {{ "timeSelection.action_bookLater" | translate }}
   </button>
   <button (click)="navigateNext()" class="user__btn" *ngIf="!appPrefetched">
     {{ previewLabels.action_continue }}

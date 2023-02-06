@@ -187,6 +187,15 @@ export class DashBoardComponent implements OnInit, OnDestroy {
       (applicants: any) => {
         this.loggerService.info("applicants in dashboard", applicants);
         //console.log(applicants);
+         if (
+                  applicants[appConstants.NESTED_ERROR] &&
+                  applicants[appConstants.NESTED_ERROR][0][appConstants.ERROR_CODE] ===
+                    appConstants.ERROR_CODES.noApplicantEnrolled
+                ) {
+                  localStorage.setItem("newApplicant", "true");
+                  this.onNewApplication();
+                  return;
+                }
         if (
           applicants[appConstants.RESPONSE] &&
           applicants[appConstants.RESPONSE] !== null
