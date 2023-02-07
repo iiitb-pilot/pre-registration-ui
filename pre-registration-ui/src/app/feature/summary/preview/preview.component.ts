@@ -56,7 +56,7 @@ export class PreviewComponent implements OnInit {
   isNavigateToDemographic = false;
   dataLoaded = false;
    canDeactivateFlag = true;
-    userPreferredLangCode = localStorage.getItem("userPrefLanguage");
+   userPreferredLangCode = localStorage.getItem("userPrefLanguage");
   constructor(
     public dialog: MatDialog,
     private dataStorageService: DataStorageService,
@@ -671,11 +671,10 @@ export class PreviewComponent implements OnInit {
     const url = Utils.getURL(this.router.url, "file-upload", 3);
     this.router.navigateByUrl(url + `/${this.preRegId}`);
   }
-
-  /*navigateDashboard() {
+  navigateDashboard() {
         this.canDeactivateFlag = false;
         this.router.navigate([`${this.userPreferredLangCode}/dashboard`]);
-         }*/
+         }
 
   navigateNext() {
     let url = Utils.getURL(this.router.url, "booking", 3);
