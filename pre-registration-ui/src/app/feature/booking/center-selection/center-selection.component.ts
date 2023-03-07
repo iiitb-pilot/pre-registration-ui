@@ -178,7 +178,7 @@ export class CenterSelectionComponent
     let uiFieldName = null;
     this.identityData.forEach((obj) => {
       if (
-        obj.inputRequired === true &&
+        /*obj.inputRequired === true &&*/
         obj.controlType !== null &&
         !(obj.controlType === "fileupload")
       ) {
