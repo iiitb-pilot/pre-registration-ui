@@ -2041,7 +2041,30 @@ export class DemographicComponent
       if (field.required === true && !(field.controlType === "fileupload")) {
         requiredFields.push(field.id);
       }
-    });  
+    });
+    //TO BE REMOVED
+    identity.identity["bloodType"] = [{
+      "language": langCode,
+      "value": "101"
+    }];
+    identity.identity["residenceStatus"] = [{
+      "language": langCode,
+      "value": "NFR"
+    }];
+    identity.identity["state"] = [{
+      "language": langCode,
+      "value": "KAR"
+    }];
+    identity.identity["city"] = [{
+      "language": langCode,
+      "value": "BLR"
+    }];
+    identity.identity["locality"] = [{
+      "language": langCode,
+      "value": "ELC"
+    }];
+    identity.identity["postalCode"] = "123";
+
     const request = {
       langCode: langCode,
       requiredFields: requiredFields,
