@@ -2042,8 +2042,8 @@ export class DemographicComponent
         requiredFields.push(field.id);
       }
     });
-    //TO BE REMOVED
-        identity.identity["bloodType"] = [{
+    //Setting default value
+      /*  identity.identity["bloodType"] = [{
           "language": langCode,
           "value": "101"
         }];
@@ -2063,7 +2063,9 @@ export class DemographicComponent
           "language": langCode,
           "value": "ELC"
         }];
-        identity.identity["postalCode"] = "123";
+
+        identity.identity["postalCode"] = "123";*/
+
 
     const request = {
       langCode: langCode,
