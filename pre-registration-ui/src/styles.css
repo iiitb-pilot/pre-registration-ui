@@ -282,3 +282,13 @@ mat-keyboard-container mat-keyboard-key .mat-keyboard-key {
   border: 1px solid #ff4081;
   color: #ff4081;
 }
+.user__btn-add {
+background-color: #ffffff;
+  border: 1px solid #ff4081;
+  color: #ff4081;
+  font-size: 9px;
+  padding: 0.3rem 0.5rem;
+  border-radius: 5px;
+  /*text-transform: capitalize;*/
+
+}
