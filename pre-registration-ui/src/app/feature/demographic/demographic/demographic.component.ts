@@ -2043,7 +2043,7 @@ export class DemographicComponent
       }
     });
     //Setting default value
-        identity.identity["bloodType"] = [{
+        /*identity.identity["bloodType"] = [{
           "language": langCode,
           "value": "101"
         }];
@@ -2064,7 +2064,7 @@ export class DemographicComponent
           "value": "ELC"
         }];
 
-        identity.identity["postalCode"] = "123";
+        identity.identity["postalCode"] = "123";*/
 
 
     const request = {

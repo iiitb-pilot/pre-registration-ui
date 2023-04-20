@@ -222,7 +222,7 @@
               class="time-selection__name-list-item"
               *ngFor="let item of deletedNames; let k = index"
             >
-              <td>{{ item.fullName }}</td>
+              <!--<td>{{ item.fullName }}</td>
               <td>
                 <mat-icon
                   (click)="addItem(k)"
@@ -233,6 +233,12 @@
                   "
                   >add</mat-icon
                 >
+              </td>-->
+              <td>{{ item.fullName }}</td>
+              <td>
+                <button (click)="addItem(k)" class="user__btn user__btn-add">
+                  {{ "timeSelection.action_add" | translate }}
+                </button>
               </td>
             </tr>
           </table>
