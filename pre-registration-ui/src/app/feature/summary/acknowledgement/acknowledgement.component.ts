@@ -467,34 +467,34 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       html2pdf(element, this.pdfOptions);
     });
   }
+// to send the ack file via email
+  async generateBlob() {
+    const element = document.getElementById("print-section");
+    return await html2pdf()
+      .set(this.pdfOptions)
+      .from(element)
+      .outputPdf("dataurlstring");
+  }
+// to send the ack file via email
+  async createBlob() {
+    const dataUrl = await this.generateBlob();
+    // convert base64 to raw binary data held in a string
+    const byteString = atob(dataUrl.split(",")[1]);
 
-  // async generateBlob() {
-  //   const element = document.getElementById("print-section");
-  //   return await html2pdf()
-  //     .set(this.pdfOptions)
-  //     .from(element)
-  //     .outputPdf("dataurlstring");
-  // }
+    // separate out the mime component
+    const mimeString = dataUrl.split(",")[0].split(":")[1].split(";")[0];
 
-  // async createBlob() {
-  //   const dataUrl = await this.generateBlob();
-  //   // convert base64 to raw binary data held in a string
-  //   const byteString = atob(dataUrl.split(",")[1]);
+    // write the bytes of the string to an ArrayBuffer
+    const arrayBuffer = new ArrayBuffer(byteString.length);
 
-  //   // separate out the mime component
-  //   const mimeString = dataUrl.split(",")[0].split(":")[1].split(";")[0];
+    var _ia = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      _ia[i] = byteString.charCodeAt(i);
+    }
 
-  //   // write the bytes of the string to an ArrayBuffer
-  //   const arrayBuffer = new ArrayBuffer(byteString.length);
-
-  //   var _ia = new Uint8Array(arrayBuffer);
-  //   for (let i = 0; i < byteString.length; i++) {
-  //     _ia[i] = byteString.charCodeAt(i);
-  //   }
-
-  //   const dataView = new DataView(arrayBuffer);
-  //   return await new Blob([dataView], { type: mimeString });
-  // }
+    const dataView = new DataView(arrayBuffer);
+    return await new Blob([dataView], { type: mimeString });
+  }
 
   sendAcknowledgement() {
     const data = {
@@ -543,7 +543,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   }
 
   async sendNotification(contactInfoArr, additionalRecipient: boolean) {
-    //this.fileBlob = await this.createBlob();
+    this.fileBlob = await this.createBlob();
     this.preRegIds.forEach(async preRegId => {
       let notificationObject = {};
       this.usersInfoArr.forEach(async (user) => {
@@ -583,11 +583,11 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         appConstants.notificationDtoKeys.langCode,
         Object.keys(notificationObject).join(",")
       );
-      // notificationRequest.append(
-      //   appConstants.notificationDtoKeys.file,
-      //   this.fileBlob,
-      //   `${preRegId}.pdf`
-      // );
+      notificationRequest.append(
+        appConstants.notificationDtoKeys.file,
+        this.fileBlob,
+        `${preRegId}.pdf`
+      );
       await this.sendNotificationForPreRegId(notificationRequest);
     }); 
   }
