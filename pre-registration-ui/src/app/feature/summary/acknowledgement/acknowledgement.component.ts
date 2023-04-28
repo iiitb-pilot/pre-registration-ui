@@ -467,7 +467,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       html2pdf(element, this.pdfOptions);
     });
   }
-// to send the ack file via email
+
   async generateBlob() {
     const element = document.getElementById("print-section");
     return await html2pdf()
@@ -475,7 +475,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       .from(element)
       .outputPdf("dataurlstring");
   }
-// to send the ack file via email
+
   async createBlob() {
     const dataUrl = await this.generateBlob();
     // convert base64 to raw binary data held in a string
