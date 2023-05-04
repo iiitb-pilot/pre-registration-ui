@@ -45,6 +45,8 @@ import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-mo
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import identityStubJson from "../../../../assets/identity-spec1.json";
 import { RouterExtService } from "src/app/shared/router/router-ext.service";
+import { NotificationDtoModel } from "src/app/shared/models/notification-model/notification-dto.model";
+import { RequestModel } from "src/app/shared/models/request-model/RequestModel";
 
 /**
  * @description This component takes care of the demographic page.
@@ -1776,7 +1778,7 @@ export class DemographicComponent
   }
 
   /**
-   * @description This is called to submit the user form in case od modify or create.
+   * @description This is called to submit the user form in case of modify or create.
    *
    * @memberof DemographicComponent
    */
@@ -1826,6 +1828,7 @@ export class DemographicComponent
             this.dataStorageService.addUser(request).subscribe(
               (response) => {
                 this.preRegId = response[appConstants.RESPONSE].preRegistrationId;
+                this.sendNotification(this.preRegId);
                 this.redirectUser();
               },
               (error) => {
@@ -1841,6 +1844,57 @@ export class DemographicComponent
         }
       }
     }
+  }
+
+  private sendNotification(prid)  {
+    let userDetails;    
+    return new Promise((resolve, reject) => {
+      this.subscriptions.push(
+        this.dataStorageService.getUser(prid).subscribe((response) => {
+          if (response[appConstants.RESPONSE]) {
+            userDetails = response[appConstants.RESPONSE].demographicDetails.identity;
+            console.log(userDetails);
+            const notificationDto = new NotificationDtoModel(
+              userDetails.fullName,
+              prid,
+              null,
+              null,
+              userDetails.phone,
+              userDetails.email,
+              false,
+              "true",
+              false
+            );
+            console.log(notificationDto);
+            const model = new RequestModel(
+              appConstants.IDS.notification,
+              notificationDto
+            );
+            let notificationRequest = new FormData();
+            notificationRequest.append(
+              appConstants.notificationDtoKeys.notificationDto,
+              JSON.stringify(model).trim()
+            );
+            notificationRequest.append(
+              appConstants.notificationDtoKeys.langCode,
+              localStorage.getItem("langCode")
+            );
+            this.dataStorageService
+              .sendNotification(notificationRequest)
+              .subscribe((response) => {
+                resolve(true);
+              },
+              (error) => {
+                resolve(true);
+                this.showErrorMessage(error);
+            });        
+          }
+        },
+        (error) => {
+          this.showErrorMessage(error);
+        })
+      );
+    });  
   }
 
   formValidation(response: any) {

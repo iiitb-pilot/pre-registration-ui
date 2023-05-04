@@ -31,6 +31,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   errorlabels: any;
   apiErrorCodes: any;
   showSpinner: boolean = true;
+ // isPreBookingNotification:string="false";
   //notificationRequest = new FormData();
   bookingDataPrimary = "";
   bookingDataSecondary = "";
@@ -566,6 +567,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
               contactInfo["phone"] === undefined ? null : contactInfo["phone"],
               contactInfo["email"] === undefined ? null : contactInfo["email"],
             additionalRecipient,
+            "false",
             false
           );
         }
