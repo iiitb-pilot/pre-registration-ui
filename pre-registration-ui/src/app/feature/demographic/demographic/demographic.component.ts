@@ -1828,7 +1828,6 @@ export class DemographicComponent
             this.dataStorageService.addUser(request).subscribe(
               (response) => {
                 this.preRegId = response[appConstants.RESPONSE].preRegistrationId;
-                this.sendNotification(this.preRegId);
                 this.redirectUser();
               },
               (error) => {
@@ -1844,57 +1843,6 @@ export class DemographicComponent
         }
       }
     }
-  }
-
-  private sendNotification(prid)  {
-    let userDetails;    
-    return new Promise((resolve, reject) => {
-      this.subscriptions.push(
-        this.dataStorageService.getUser(prid).subscribe((response) => {
-          if (response[appConstants.RESPONSE]) {
-            userDetails = response[appConstants.RESPONSE].demographicDetails.identity;
-            console.log(userDetails);
-            const notificationDto = new NotificationDtoModel(
-              userDetails.fullName,
-              prid,
-              null,
-              null,
-              userDetails.phone,
-              userDetails.email,
-              false,
-              "true",
-              false
-            );
-            console.log(notificationDto);
-            const model = new RequestModel(
-              appConstants.IDS.notification,
-              notificationDto
-            );
-            let notificationRequest = new FormData();
-            notificationRequest.append(
-              appConstants.notificationDtoKeys.notificationDto,
-              JSON.stringify(model).trim()
-            );
-            notificationRequest.append(
-              appConstants.notificationDtoKeys.langCode,
-              localStorage.getItem("langCode")
-            );
-            this.dataStorageService
-              .sendNotification(notificationRequest)
-              .subscribe((response) => {
-                resolve(true);
-              },
-              (error) => {
-                resolve(true);
-                this.showErrorMessage(error);
-            });        
-          }
-        },
-        (error) => {
-          this.showErrorMessage(error);
-        })
-      );
-    });  
   }
 
   formValidation(response: any) {
@@ -1922,10 +1870,70 @@ export class DemographicComponent
       localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "false");
       this.router.navigateByUrl(url + `/${this.preRegId}/preview`);
     } else {
+      if(this.isNewApplicant==true) {
+        this.sendNotification(this.preRegId);
+      }
       url = Utils.getURL(this.router.url, "file-upload");
       localStorage.removeItem(appConstants.NEW_APPLICANT_FROM_PREVIEW);
       this.router.navigate([url, this.preRegId]);
     }
+  }
+
+  private sendNotification(prid)  {
+    let userDetails;    
+    return new Promise((resolve, reject) => {
+        this.dataStorageService.getUser(prid).subscribe((response) => {
+          if (response[appConstants.RESPONSE]) {
+            userDetails = response[appConstants.RESPONSE].demographicDetails.identity;
+            console.log(userDetails);
+            const notificationDto = new NotificationDtoModel(
+              userDetails.fullName[0].value,
+              prid,
+              null,
+              null,
+              userDetails.phone,
+              userDetails.email,
+              false,
+              "true",
+              false
+            );
+            console.log(notificationDto);
+            const model = new RequestModel(
+              appConstants.IDS.notification,
+              notificationDto
+            );
+            let notificationRequest = new FormData();
+            notificationRequest.append(
+              appConstants.notificationDtoKeys.notificationDto,
+              JSON.stringify(model).trim()
+            );
+            notificationRequest.append(
+              appConstants.notificationDtoKeys.langCode,
+              localStorage.getItem("langCode")
+            );
+            this.sendNotificationForPreRegId(notificationRequest);       
+          }
+        },
+        (error) => {
+          this.showErrorMessage(error);
+        })
+    });  
+  }
+
+  private sendNotificationForPreRegId(notificationRequest) {
+    return new Promise((resolve, reject) => {
+      this.subscriptions.push(
+        this.dataStorageService
+        .sendNotification(notificationRequest)
+        .subscribe((response) => {
+          resolve(true);
+        },
+        (error) => {
+          resolve(true);
+          this.showErrorMessage(error);
+        })
+      );
+    });
   }
 
   /**
