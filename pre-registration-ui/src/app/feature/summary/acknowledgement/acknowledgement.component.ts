@@ -543,7 +543,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   }
 
   async sendNotification(contactInfoArr, additionalRecipient: boolean) {
-    //this.fileBlob = await this.createBlob();
+    this.fileBlob = await this.createBlob();
     this.preRegIds.forEach(async preRegId => {
       let notificationObject = {};
       this.usersInfoArr.forEach(async (user) => {
@@ -583,11 +583,11 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         appConstants.notificationDtoKeys.langCode,
         Object.keys(notificationObject).join(",")
       );
-      // notificationRequest.append(
-      //   appConstants.notificationDtoKeys.file,
-      //   this.fileBlob,
-      //   `${preRegId}.pdf`
-      // );
+      notificationRequest.append(
+        appConstants.notificationDtoKeys.file,
+        this.fileBlob,
+        `${preRegId}.pdf`
+      );
       await this.sendNotificationForPreRegId(notificationRequest);
     }); 
   }
