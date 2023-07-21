@@ -570,7 +570,7 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     return new Promise((resolve) => {
       this.subscriptions.push(
         this.dataStorageService
-        .getDocumentCategoriesByLang(applicantcode, this.userPrefLanguage)
+        .getDocumentCategoriesByLang(applicantcode, this.dataCaptureLanguages[0])
         .subscribe(
           (res) => {
             if (res[appConstants.RESPONSE]) {
