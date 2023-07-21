@@ -45,6 +45,8 @@ import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-mo
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import identityStubJson from "../../../../assets/identity-spec1.json";
 import { RouterExtService } from "src/app/shared/router/router-ext.service";
+import { NotificationDtoModel } from "src/app/shared/models/notification-model/notification-dto.model";
+import { RequestModel } from "src/app/shared/models/request-model/RequestModel";
 
 /**
  * @description This component takes care of the demographic page.
@@ -1776,7 +1778,7 @@ export class DemographicComponent
   }
 
   /**
-   * @description This is called to submit the user form in case od modify or create.
+   * @description This is called to submit the user form in case of modify or create.
    *
    * @memberof DemographicComponent
    */
@@ -1873,7 +1875,6 @@ export class DemographicComponent
       this.router.navigate([url, this.preRegId]);
     }
   }
-
   /**
    * @description THis is to create the attribute array for the Identity modal.
    *
