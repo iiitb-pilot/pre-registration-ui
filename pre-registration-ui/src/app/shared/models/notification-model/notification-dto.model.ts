@@ -7,7 +7,6 @@ export class NotificationDtoModel {
     public mobNum: string,
     public emailID: string,
     public additionalRecipient: boolean,
-    public isPreBookingNotification:string,
     public isBatch: boolean
   ) {}
 }

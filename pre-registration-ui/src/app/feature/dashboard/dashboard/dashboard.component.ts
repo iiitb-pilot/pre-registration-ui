@@ -887,7 +887,6 @@ export class DashBoardComponent implements OnInit, OnDestroy {
               userDetails.phone,
               userDetails.email,
               null,
-              "false",
               true
             );
             console.log(notificationDto);

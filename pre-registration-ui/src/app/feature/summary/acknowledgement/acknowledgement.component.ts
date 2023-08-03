@@ -567,7 +567,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
               contactInfo["phone"] === undefined ? null : contactInfo["phone"],
               contactInfo["email"] === undefined ? null : contactInfo["email"],
             additionalRecipient,
-            "false",
             false
           );
         }
