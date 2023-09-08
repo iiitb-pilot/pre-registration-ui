@@ -61,6 +61,8 @@ export class DashBoardComponent implements OnInit, OnDestroy {
   languagelabels;
   dataCaptureLabels;
   name = "";
+  firstName = "";
+  lastName = "";
   identityData: any;
   locationHeirarchies: any[];
   mandatoryLanguages: string[];
@@ -136,7 +138,10 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     this.regService.setSameAs("");
     this.name = this.configService.getConfigByKey(
       appConstants.CONFIG_KEYS.preregistration_identity_name
-    );
+     );
+    this.firstName = "firstName";
+    this.lastName =  "lastName";
+
     await this.getIdentityJsonFormat();
   }
 
@@ -349,26 +354,39 @@ export class DashBoardComponent implements OnInit, OnDestroy {
       dataAvailableLanguages = Utils.reorderLangsForUserPreferredLang(dataAvailableLanguages, this.userPreferredLangCode);
     }
     let applicantName = "";
-    const nameField = applicantResponse["demographicMetadata"][this.name];
-    if (Array.isArray(nameField)) {
-      nameField.forEach(fld => {
+
+  const firstNameField = applicantResponse["demographicMetadata"][this.firstName];
+  const lastNameField = applicantResponse["demographicMetadata"][this.lastName];
+    if (Array.isArray(firstNameField) && Array.isArray(lastNameField)) {
+      firstNameField.forEach(fld => {
         if (fld.language == this.userPreferredLangCode) {
-          applicantName = fld.value;
+          applicantName = fld.value + " ";
+        }
+      });
+      lastNameField.forEach(fld => {
+        if (fld.language == this.userPreferredLangCode) {
+          applicantName = applicantName + fld.value;
         }
       });
       if (applicantName == "" && dataAvailableLanguages.length > 0) {
-        nameField.forEach(fld => {
+        firstNameField.forEach(fld => {
           if (fld.language == dataAvailableLanguages[0]) {
-            applicantName = fld.value;
+            applicantName = fld.value + " ";
+          }
+        });  
+        lastNameField.forEach(fld => {
+          if (fld.language == dataAvailableLanguages[0]) {
+            applicantName = applicantName + fld.value;
           }
         });  
       }
     } else {
-      if (nameField)
-      applicantName = nameField;
+      if (firstNameField && lastNameField )
+      applicantName = firstNameField + "  " + lastNameField;
       else 
       applicantName = "";
     }
+ 
     let dataCaptureLanguagesLabels = Utils.getLanguageLabels(JSON.stringify(dataAvailableLanguages), 
           localStorage.getItem(appConstants.LANGUAGE_CODE_VALUES));
     const applicant: Applicant = {
