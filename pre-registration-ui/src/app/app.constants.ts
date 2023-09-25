@@ -95,6 +95,8 @@ export const CONFIG_KEYS = {
   preregistration_timespan_rebook: 'preregistration.timespan.rebook',
   mosip_login_mode: 'mosip.login.mode',
   preregistration_identity_name : 'preregistration.identity.name',
+  preregistration_identity_firstName : 'preregistration.identity.firstName',
+  preregistration_identity_lastNname : 'preregistration.identity.lastName',
   mosip_regex_email: 'mosip.id.validation.identity.email',
   mosip_regex_phone: 'mosip.id.validation.identity.phone',
   mosip_left_to_right_orientation: 'mosip.left_to_right_orientation',

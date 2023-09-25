@@ -139,8 +139,12 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     this.name = this.configService.getConfigByKey(
       appConstants.CONFIG_KEYS.preregistration_identity_name
      );
-    this.firstName = "firstName";
-    this.lastName =  "lastName";
+     this.firstName = this.configService.getConfigByKey(
+      appConstants.CONFIG_KEYS.preregistration_identity_firstName
+    );
+    this.lastName = this.configService.getConfigByKey(
+      appConstants.CONFIG_KEYS.preregistration_identity_lastNname
+    );
 
     await this.getIdentityJsonFormat();
   }
