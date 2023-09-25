@@ -76,8 +76,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
     this.name = this.configService.getConfigByKey(
       appConstants.CONFIG_KEYS.preregistration_identity_name
     );
-    this.name="firstName,lastName";
-    
     await this.getUserInfo(this.preRegIds);
     //console.log(this.usersInfoArr);
     for (let i = 0; i < this.usersInfoArr.length; i++) {

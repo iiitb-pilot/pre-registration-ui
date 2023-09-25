@@ -69,8 +69,8 @@ export class TimeSelectionComponent
   afternoonSlotAvailable: boolean = false;
   morningSlotAvailable: boolean = false;
   name = "";
-  firstName = "firstName";
-  lastName = "lastName";
+  firstName = "";
+  lastName = "";
   applicationStatus = "";
   constructor(
     private bookingService: BookingService,
@@ -101,7 +101,12 @@ export class TimeSelectionComponent
     this.name = this.configService.getConfigByKey(
       appConstants.CONFIG_KEYS.preregistration_identity_name
     );
-    this.name = "firstName,lastName";
+    this.firstName = this.configService.getConfigByKey(
+      appConstants.CONFIG_KEYS.preregistration_identity_firstName
+    );
+    this.lastName = this.configService.getConfigByKey(
+      appConstants.CONFIG_KEYS.preregistration_identity_lastNname
+    );
     this.dataService
       .getI18NLanguageFiles(this.userPreferredLangCode)
       .subscribe((response) => {
