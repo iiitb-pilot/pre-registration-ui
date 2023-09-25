@@ -76,8 +76,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
     this.name = this.configService.getConfigByKey(
       appConstants.CONFIG_KEYS.preregistration_identity_name
     );
-    this.name="firstName,lastName";
-    
     await this.getUserInfo(this.preRegIds);
     //console.log(this.usersInfoArr);
     for (let i = 0; i < this.usersInfoArr.length; i++) {
@@ -130,19 +128,14 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             };
             nameListObj.preRegId = user["request"].preRegistrationId;
             nameListObj.status = user["request"].statusCode;
-            
-            let fullNameConcat="";
-            for (var names  of  this.name.split(",")) {
-              if (demographicData[names]) {
-                let nameValues = demographicData[names];
-                nameValues.forEach(nameVal => {
-                  if (nameVal["language"] == applicationLang) {
-                   fullNameConcat += nameVal["value"] + " ";
-                  }
-                });  
-              }
+            if (demographicData[this.name]) {
+              let nameValues = demographicData[this.name];
+              nameValues.forEach(nameVal => {
+                if (nameVal["language"] == applicationLang) {
+                  nameListObj.fullName = nameVal["value"];
+                }
+              });  
             }
-            nameListObj.fullName = fullNameConcat;
             if (demographicData["postalCode"]) {
               nameListObj.postalCode = demographicData["postalCode"];
             }
