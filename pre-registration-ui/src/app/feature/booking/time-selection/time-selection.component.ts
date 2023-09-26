@@ -31,8 +31,7 @@ import { UserModel } from "src/app/shared/models/demographic-model/user.modal";
 })
 export class TimeSelectionComponent
   extends BookingDeactivateGuardService
-  implements OnInit, OnDestroy
-{
+  implements OnInit, OnDestroy {
   @ViewChild("widgetsContent", { read: ElementRef }) public widgetsContent;
   @ViewChild("cardsContent", { read: ElementRef }) public cardsContent;
   textDir = localStorage.getItem("dir");
@@ -70,6 +69,8 @@ export class TimeSelectionComponent
   afternoonSlotAvailable: boolean = false;
   morningSlotAvailable: boolean = false;
   name = "";
+  firstName = "";
+  lastName = "";
   applicationStatus = "";
   constructor(
     private bookingService: BookingService,
@@ -100,6 +101,12 @@ export class TimeSelectionComponent
     this.name = this.configService.getConfigByKey(
       appConstants.CONFIG_KEYS.preregistration_identity_name
     );
+    this.firstName = this.configService.getConfigByKey(
+      appConstants.CONFIG_KEYS.preregistration_identity_firstName
+    );
+    this.lastName = this.configService.getConfigByKey(
+      appConstants.CONFIG_KEYS.preregistration_identity_lastNname
+    );
     this.dataService
       .getI18NLanguageFiles(this.userPreferredLangCode)
       .subscribe((response) => {
@@ -118,7 +125,7 @@ export class TimeSelectionComponent
       this.registrationCenterLunchTime =
         this.temp[0].registrationCenter.lunchEndTime.split(":");
     }
-    this.getSlotsforCenter(this.registrationCenter);  
+    this.getSlotsforCenter(this.registrationCenter);
   }
 
   getUserInfo(preRegId) {
@@ -144,9 +151,9 @@ export class TimeSelectionComponent
           )
         );
       },
-      (error) => {
-        this.showErrorMessage(error);
-      });
+        (error) => {
+          this.showErrorMessage(error);
+        });
     });
   }
 
@@ -165,9 +172,9 @@ export class TimeSelectionComponent
             resolve(true);
           }
         },
-        (error) => {
-          this.showErrorMessage(error);
-        });
+          (error) => {
+            this.showErrorMessage(error);
+          });
     });
   }
 
@@ -186,19 +193,23 @@ export class TimeSelectionComponent
       };
       const demographicData = user["request"].demographicDetails.identity;
       const applicationLanguages = Utils.getApplicationLangs(user["request"]);
-      let filteredLangs = applicationLanguages.filter(applicationLang => 
+      let filteredLangs = applicationLanguages.filter(applicationLang =>
         applicationLang == this.userPreferredLangCode
       );
+      let fullNameConcat = "";
       if (filteredLangs.length > 0) {
-        let nameValues = demographicData[this.name];
-        nameValues.forEach(nameVal => {
-          if (nameVal["language"] == this.userPreferredLangCode) {
-            nameList.fullName = nameVal["value"];
-          }
-        });  
+        for (var names of this.name.split(",")) {
+          let nameValues = demographicData[names];
+          nameValues.forEach(nameVal => {
+            if (nameVal["language"] == this.userPreferredLangCode) {
+              fullNameConcat += nameVal["value"] + " ";
+            }
+          });
+        }
+        nameList.fullName = fullNameConcat;
       } else {
         nameList.fullName =
-        demographicData[this.name][0].value;
+          demographicData[this.firstName][0].value + " " + demographicData[this.lastName][0].value;
       }
       nameList.preRegId = user.request.preRegistrationId;
       nameList.status = user.request.statusCode;
@@ -207,7 +218,7 @@ export class TimeSelectionComponent
       console.log(`user.request.statusCode: ${user.request.statusCode}`);
       if (user.request.statusCode === appConstants.APPLICATION_STATUS_CODES.pending) {
         this.showNote = true;
-      }  
+      }
       this.names.push(nameList);
       this.temp.push(nameList);
     });
@@ -316,7 +327,7 @@ export class TimeSelectionComponent
       });
       this.translate.get('timeSelection.text_afternoon').subscribe((label: string) => {
         afternoonLabelText = label;
-      });  
+      });
       element.timeSlots.forEach((slot) => {
         sumAvailability += slot.availability;
         slot.names = [];
@@ -324,7 +335,7 @@ export class TimeSelectionComponent
         let toTime = slot.toTime.split(":");
         if (this.registrationCenterLunchTime[0] === null) {
           slot.tag = "morning";
-          slot.tagLabel = morningLabelText; 
+          slot.tagLabel = morningLabelText;
           element.showMorning = true;
           this.morningSlotAvailable = true;
           this.afternoonSlotAvailable = false;
@@ -358,8 +369,8 @@ export class TimeSelectionComponent
       element.TotalAvailable = sumAvailability;
       element.inActive = false;
       const ltrLangs = this.configService
-      .getConfigByKey(appConstants.CONFIG_KEYS.mosip_left_to_right_orientation)
-      .split(",");
+        .getConfigByKey(appConstants.CONFIG_KEYS.mosip_left_to_right_orientation)
+        .split(",");
       element.displayDate = Utils.getBookingDateTime(
         element.date,
         "",
@@ -606,7 +617,7 @@ export class TimeSelectionComponent
             })
             .afterClosed()
             .subscribe(() => {
-              this.temp.forEach((name) => {});
+              this.temp.forEach((name) => { });
               this.bookingService.setSendNotification(true);
               const url = Utils.getURL(this.router.url, "summary", 3);
               if (this.router.url.includes("multiappointment")) {
@@ -619,7 +630,7 @@ export class TimeSelectionComponent
                 );
               }
             });
-        } 
+        }
       },
       (error) => {
         if (Utils.getErrorCode(error) === appConstants.ERROR_CODES.timeExpired) {
@@ -643,7 +654,7 @@ export class TimeSelectionComponent
    * @private
    * @memberof TimeSelectionComponent
    */
-   private showErrorMessage(error: any, customMsg?: string) {
+  private showErrorMessage(error: any, customMsg?: string) {
     this.spinner = false;
     this.disableContinueButton = false;
     const titleOnError = this.errorlabels.errorLabel;
@@ -657,7 +668,7 @@ export class TimeSelectionComponent
         message = this.errorlabels.slotNotAvailable;
       }
       else {
-        message = Utils.createErrorMessage(error, this.errorlabels, this.apiErrorCodes, this.configService); 
+        message = Utils.createErrorMessage(error, this.errorlabels, this.apiErrorCodes, this.configService);
       }
     }
     const messageObj = {

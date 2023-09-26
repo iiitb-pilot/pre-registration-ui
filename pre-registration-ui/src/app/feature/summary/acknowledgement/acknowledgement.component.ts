@@ -128,14 +128,19 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             };
             nameListObj.preRegId = user["request"].preRegistrationId;
             nameListObj.status = user["request"].statusCode;
-            if (demographicData[this.name]) {
-              let nameValues = demographicData[this.name];
-              nameValues.forEach(nameVal => {
-                if (nameVal["language"] == applicationLang) {
-                  nameListObj.fullName = nameVal["value"];
-                }
-              });  
+            
+            let fullNameConcat="";
+            for (var names  of  this.name.split(",")) {
+              if (demographicData[names]) {
+                let nameValues = demographicData[names];
+                nameValues.forEach(nameVal => {
+                  if (nameVal["language"] == applicationLang) {
+                   fullNameConcat += nameVal["value"] + " ";
+                  }
+                });  
+              }
             }
+            nameListObj.fullName = fullNameConcat;
             if (demographicData["postalCode"]) {
               nameListObj.postalCode = demographicData["postalCode"];
             }
