@@ -350,8 +350,8 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     }
     let applicantName = "";
 
-  const firstNameField = applicantResponse["demographicMetadata"][this.firstName];
-  const lastNameField = applicantResponse["demographicMetadata"][this.lastName];
+  const firstNameField = applicantResponse["demographicMetadata"][this.name.split(",")[0]];
+  const lastNameField = applicantResponse["demographicMetadata"][this.name.split(",")[1]];
     if (Array.isArray(firstNameField) && Array.isArray(lastNameField)) {
       firstNameField.forEach(fld => {
         if (fld.language == this.userPreferredLangCode) {
@@ -892,7 +892,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
           if (response[appConstants.RESPONSE]) {
             userDetails = response[appConstants.RESPONSE].demographicDetails.identity;
             console.log(userDetails);
-            const fullName = userDetails[this.firstName][0].value + " " + userDetails[this.lastName][0].value;
+            const fullName = userDetails[this.name.split(",")[0]][0].value + " " + userDetails[this.name.split(",")[1]][0].value;
             const notificationDto = new NotificationDtoModel(
               fullName,
               prid,
