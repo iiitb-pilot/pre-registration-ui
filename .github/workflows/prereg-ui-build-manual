@@ -1,4 +1,4 @@
-name: Pre-registration UI build
+name: Pre-registration UI build manual
 
 on: workflow_dispatch
 
