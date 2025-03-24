@@ -8,5 +8,7 @@ export interface NameList {
   postalCode?: string;
   langCode?: string;
   labelDetails?: any;
+  gender?:string;
+  dateOfBirth?:string;
   userLangLabelDetails?: any;
 }
