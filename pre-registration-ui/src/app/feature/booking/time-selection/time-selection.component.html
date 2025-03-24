@@ -37,29 +37,43 @@
         </div>
         <div #widgetsContent class="middle">
           <mat-card
-            *ngFor="let data of availabilityData | slice: 0:days; let i = index"
-            [ngClass]="
-              data.holiday
-                ? 'sizing disabled'
-                : selectedTile === i
-                ? 'sizing selected'
-                : 'sizing'
-            "
-            (click)="dateSelected(i)"
+          *ngFor="let data of availabilityData | slice: 0:days; let i = index"
+          [ngClass]="
+          data.holiday
+          ? 'sizing disabled' 
+          : selectedTile === i
+          ? 'sizing selected-card'  
+          : 'sizing'
+      "
+          (click)="dateSelected(i)"
+        >
+        <mat-card-content class="time-selection__date">
+          <p
+            class="time-selection__tile-date"
+            [ngClass]="selectedTile === i ? 'selected-text' : ''"
           >
-            <mat-card-content class="time-selection__date">
-              <p class="time-selection__tile-date">{{ data.displayDate }}</p>
-              <p class="time-selection__tile-date-text">
-                {{ data.displayDay }}
-              </p>
-              <p class="time-selection__tile-availability-text">
-                {{ data.TotalAvailable }}
-              </p>
-              <p class="time-selection__tile-availability-text">
-                {{ "timeSelection.text_availability" | translate }}
-              </p>
-            </mat-card-content>
-          </mat-card>
+            {{ data.displayDate }}
+          </p>
+          <p
+            class="time-selection__tile-date-text"
+            [ngClass]="selectedTile === i ? 'selected-text' : ''"
+          >
+            {{ data.displayDay }}
+          </p>
+          <p
+            class="time-selection__tile-availability-text"
+            [ngClass]="selectedTile === i ? 'selected-text' : ''"
+          >
+            {{ data.TotalAvailable }}
+          </p>
+          <p
+            class="time-selection__tile-availability-text"
+            [ngClass]="selectedTile === i ? 'selected-text' : ''"
+          >
+            {{ "timeSelection.text_availability" | translate }}
+          </p>
+        </mat-card-content>
+        </mat-card>
         </div>
         <div class="right-button">
           <a (click)="scrollRight()"><img src="assets/right.png" alt="Right"/></a>

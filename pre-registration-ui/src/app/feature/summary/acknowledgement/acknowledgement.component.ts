@@ -123,6 +123,8 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
               bookingData: "",
               postalCode: "",
               langCode: "",
+              gender: "",
+              dateOfBirth: "",
               labelDetails: [],
               userLangLabelDetails: []
             };
@@ -143,6 +145,13 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             nameListObj.fullName = fullNameConcat;
             if (demographicData["postalCode"]) {
               nameListObj.postalCode = demographicData["postalCode"];
+            }
+            if (demographicData["gender"]) {
+              nameListObj.gender = demographicData["gender"];
+            }
+
+            if (demographicData["dateOfBirth"]) {
+              nameListObj.dateOfBirth = demographicData["dateOfBirth"];
             }
             nameListObj.registrationCenter = "";
             nameListObj.langCode = applicationLang;
@@ -259,6 +268,8 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       labelRegCntrs = [],
       regCntrNames = [],
       appLangCode = [],
+      labelGender = [],
+        labelDateOfBirth = [],
       bookingDataPrimary = [],
       bookingTimePrimary = [];
 
@@ -276,6 +287,17 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
           contactPhoneLabels.push(labels.label_cntr_contact_number);
           labelNames.push(labels.label_name);
           labelRegCntrs.push(labels.label_reg_cntr);
+
+          if (userInfo.gender) {
+            const genderKey = `acknowledgement.gender_${userInfo.gender[0].value.toLowerCase()}`;
+            this.ackDataItem["gender"] = this.translate.instant(genderKey);
+            labelGender.push(labels.label_gender);
+          }
+          if (userInfo.dateOfBirth) {
+            this.ackDataItem["dateOfBirth"] = userInfo.dateOfBirth;
+            labelDateOfBirth.push(labels.label_date_of_birth);
+          }
+
           nameValues.push(userInfo.fullName);
           //console.log(userInfo.registrationCenter.name);
           if (userInfo.registrationCenter.name) {
@@ -374,6 +396,19 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         .replace(/,/g, " / ")
         .replace(/"/g, " ")
         .replace(/]/g, "");
+
+        this.ackDataItem["labelGender"] = JSON.stringify(labelGender)
+        .replace(/\[/g, "")
+        .replace(/,/g, " / ")
+        .replace(/"/g, " ")
+        .replace(/]/g, "");
+
+      this.ackDataItem["labelDateOfBirth"] = JSON.stringify(labelDateOfBirth)
+        .replace(/\[/g, "")
+        .replace(/,/g, " / ")
+        .replace(/"/g, " ")
+        .replace(/]/g, "");
+
       for (let j = 0; j < this.guidelines.length; j++) {
         if (appLangCode.includes(this.guidelines[j].langCode)) {
           this.ackDataItem[

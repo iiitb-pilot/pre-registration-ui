@@ -271,6 +271,9 @@ mat-keyboard-container mat-keyboard-key .mat-keyboard-key {
   cursor: pointer;
   border-radius: 2px;
   text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  /* margin-left: 70px; */
 }
 .user__btn-back {
   background-color: #ffffff;

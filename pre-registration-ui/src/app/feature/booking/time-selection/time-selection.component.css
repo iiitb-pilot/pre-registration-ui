@@ -116,7 +116,7 @@
 .time-selection__name-list-header {
   min-height: 50px;
   width: 100%;
-  background-color: #3973ac;
+  background-color: #0B6A82;
   padding: 5px 2rem;
   word-wrap: break-word;
   color: white;
@@ -136,20 +136,24 @@
 }
 
 .time-selection__name-list {
-  padding: 0px 2rem;
+  padding: 25px 1rem;
   list-style: none;
   width: 100%;
   word-wrap: break-word;
-  word-break: break-all;
-  white-space: pre-wrap;
+  word-break: break-word;
+  white-space: normal;
 }
 
 .time-selection__name-list-item {
-  padding: 15px 0 15px 10px;
-  min-height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding: 5px 5px; */
   width: 100%;
-  font-size: 0.8rem;
+  font-size: 1rem;
+  gap: 10px;
 }
+
 .selected-name-list-item {
   padding: 10px;
   min-height: 30px;
@@ -267,8 +271,9 @@
 }
 
 .selected-card {
-  background-color: #ff4081 !important;
+  background-color: #0B6A82 !important;
   color: white !important;
+  border: 1px solid #0B6A82 !important;
 }
 
 .time-selection__button-container {

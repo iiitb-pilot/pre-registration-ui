@@ -381,7 +381,12 @@
     "action_send": "SEND EMAIL/SMS",
     "action_download": "DOWNLOAD PDF",
     "action_print": "PRINT",
-    "label_reg_cntr_dtl": "Center Address"
+    "label_reg_cntr_dtl": "Center Address",
+    "label_gender": "Gender",
+    "label_date_of_birth" : "Date of Birth",
+    "gender_mle":"Male",
+    "gender_fle":"Female",
+    "gender_oth":"Others"
   },
   "preview": {
     "title_preview": "Preview",
@@ -512,6 +517,7 @@
     }
   },
   "timeSelection": {
+    "action_add":"Add",
     "title_book": "Book Appointment",
     "text_prev": "Previous",
     "text_next": "Next",
