@@ -374,7 +374,7 @@
     height: 100px;
     background: rgb(216, 216, 216);
     border: 1px solid rgb(0, 0, 0);
-    padding: 8px;
+    padding: 14px 35px;
 }
 .flexview{
   display: inline-flex;
