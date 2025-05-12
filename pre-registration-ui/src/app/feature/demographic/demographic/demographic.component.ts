@@ -865,14 +865,12 @@ export class DemographicComponent
               const toLang = dataCaptureLanguage;
               const toFieldName = uiFieldId + "_" + toLang;
               const toFieldValue = this.userForm.controls[toFieldName].value;
-              if (toFieldValue === "") {
                 this.onTransliteration(
                   fromLang,
                   toLang,
                   fromFieldName,
                   toFieldName
                 );
-              }
             }
           });
         }
