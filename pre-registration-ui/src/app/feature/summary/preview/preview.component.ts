@@ -662,6 +662,10 @@ export class PreviewComponent implements OnInit {
     });
     return dialogRef;
   }
+  navigateDashboard() {
+      this.canDeactivateFlag = false;
+      this.router.navigate([`${this.userPreferredLangCode}/dashboard`]);
+       }
 
   navigateToDemographic() {
     localStorage.setItem(appConstants.NEW_APPLICANT, "true");
