@@ -55,6 +55,8 @@ export class PreviewComponent implements OnInit {
   userPrefLanguageDir = "";
   isNavigateToDemographic = false;
   dataLoaded = false;
+  canDeactivateFlag = true;
+  userPreferredLangCode = localStorage.getItem("userPrefLanguage");
   constructor(
     public dialog: MatDialog,
     private dataStorageService: DataStorageService,
