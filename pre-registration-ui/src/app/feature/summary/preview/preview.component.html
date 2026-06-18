@@ -106,6 +106,9 @@
   <button matTooltip="{{ helpText.add_applicant }}" (click)="onNewApplication()" class="user__btn user__btn-action">
     {{ previewLabels.action_add_applicant }}
   </button>
+  <button (click)="navigateDashboard()" class="user__btn user__btn-action">
+    {{ "timeSelection.action_bookLater" | translate }}
+  </button>
   <button (click)="navigateNext()" class="user__btn" *ngIf="!appPrefetched">
     {{ previewLabels.action_continue }}
   </button>
