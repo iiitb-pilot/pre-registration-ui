@@ -50,7 +50,7 @@ export class PreviewComponent implements OnInit {
     .split(",");
   controlIds = [];
   ControlIdLabelObjects = {};
-  readOnlyMode=false;
+  readOnlyMode = false;
   userPrefLanguage = localStorage.getItem("userPrefLanguage");
   userPrefLanguageDir = "";
   isNavigateToDemographic = false;
@@ -233,7 +233,7 @@ export class PreviewComponent implements OnInit {
           this.locationHeirarchies = hierarchiesArray;
         }
         this.locationHeirarchy = this.locationHeirarchies[0];
-        
+
         console.log(...this.locationHeirarchies);
         this.identityData.forEach((obj) => {
           if (
@@ -251,9 +251,9 @@ export class PreviewComponent implements OnInit {
         this.getIntialDropDownArrays();
         resolve(true);
       },
-      (error) => {
-        this.showErrorMessage(error);
-      });
+        (error) => {
+          this.showErrorMessage(error);
+        });
     });
   }
 
@@ -280,7 +280,7 @@ export class PreviewComponent implements OnInit {
     });
   }
 
-  private filterOnLangCode( 
+  private filterOnLangCode(
     field: string,
     entityArray: any,
     langCode: string) {
@@ -337,9 +337,9 @@ export class PreviewComponent implements OnInit {
           }
           resolve(true);
         },
-        (error) => {
-          this.showErrorMessage(error);
-        });
+          (error) => {
+            this.showErrorMessage(error);
+          });
     });
   }
 
@@ -351,12 +351,12 @@ export class PreviewComponent implements OnInit {
           this.setUserFiles(response);
           resolve(true);
         },
-        (error) => {
-          resolve(true);
-          //user files can be uploaded or not
-          //so we dont have to show error message
-          //this.showErrorMessage(error);
-        });
+          (error) => {
+            resolve(true);
+            //user files can be uploaded or not
+            //so we dont have to show error message
+            //this.showErrorMessage(error);
+          });
     });
   }
 
@@ -376,17 +376,17 @@ export class PreviewComponent implements OnInit {
             response[appConstants.RESPONSE].documentCategories;
           resolve(true);
         },
-        (error) => {
-          this.showErrorMessage(error);
-        });
+          (error) => {
+            this.showErrorMessage(error);
+          });
     });
   }
 
   formatDob(dob: string) {
     dob = dob.replace(/\//g, "-");
     const ltrLangs = this.configService
-    .getConfigByKey(appConstants.CONFIG_KEYS.mosip_left_to_right_orientation)
-    .split(",");
+      .getConfigByKey(appConstants.CONFIG_KEYS.mosip_left_to_right_orientation)
+      .split(",");
     this.previewData.dateOfBirth = Utils.getBookingDateTime(
       dob,
       "",
@@ -430,36 +430,36 @@ export class PreviewComponent implements OnInit {
     return new Promise((resolve) => {
       this.subscriptions.push(
         this.dataStorageService
-        .getDynamicFieldsandValuesForAllLang(pageNumber)
-        .subscribe(async (response) => {
-          let dynamicField = response[appConstants.RESPONSE]["data"];
-          this.dynamicFields.forEach((field) => {
-            dynamicField.forEach((res) => {
-              if (field.subType === res.name || field.id === res.name) {
-                this.filterOnLangCode(
-                  field.id,
-                  res["fieldVal"],
-                  res["langCode"]
-                );
-              }
+          .getDynamicFieldsandValuesForAllLang(pageNumber)
+          .subscribe(async (response) => {
+            let dynamicField = response[appConstants.RESPONSE]["data"];
+            this.dynamicFields.forEach((field) => {
+              dynamicField.forEach((res) => {
+                if (field.subType === res.name || field.id === res.name) {
+                  this.filterOnLangCode(
+                    field.id,
+                    res["fieldVal"],
+                    res["langCode"]
+                  );
+                }
+              });
             });
-          });
-          let totalPages = response[appConstants.RESPONSE]["totalPages"];
-          if (totalPages) {
-            totalPages = Number(totalPages);
-          }
-          pageNumber = pageNumber + 1;
-          if (totalPages > pageNumber) {
-            await this.getDynamicFieldValues(pageNumber);
-            resolve(true);
-          } else {
-            resolve(true);
-          }
-        },
-        (error) => {
-          this.showErrorMessage(error);
-        })
-      );  
+            let totalPages = response[appConstants.RESPONSE]["totalPages"];
+            if (totalPages) {
+              totalPages = Number(totalPages);
+            }
+            pageNumber = pageNumber + 1;
+            if (totalPages > pageNumber) {
+              await this.getDynamicFieldValues(pageNumber);
+              resolve(true);
+            } else {
+              resolve(true);
+            }
+          },
+            (error) => {
+              this.showErrorMessage(error);
+            })
+      );
     });
   }
 
@@ -503,7 +503,7 @@ export class PreviewComponent implements OnInit {
         if (response[appConstants.RESPONSE]) {
           this.genders =
             response[appConstants.RESPONSE][
-              appConstants.DEMOGRAPHIC_RESPONSE_KEYS.genderTypes
+            appConstants.DEMOGRAPHIC_RESPONSE_KEYS.genderTypes
             ];
           resolve(true);
         }
@@ -525,7 +525,7 @@ export class PreviewComponent implements OnInit {
         if (response[appConstants.RESPONSE]) {
           this.residenceStatus =
             response[appConstants.RESPONSE][
-              appConstants.DEMOGRAPHIC_RESPONSE_KEYS.residentTypes
+            appConstants.DEMOGRAPHIC_RESPONSE_KEYS.residentTypes
             ];
           resolve(true);
         }
@@ -566,19 +566,19 @@ export class PreviewComponent implements OnInit {
           }
           resolve(true);
         },
-        (error) => {
-          //fetching location names can be a fail safe operation
-          //in case there is some error, we can still proceed 
-          resolve(true);
-          //this.showErrorMessage(error);
-        });
+          (error) => {
+            //fetching location names can be a fail safe operation
+            //in case there is some error, we can still proceed 
+            resolve(true);
+            //this.showErrorMessage(error);
+          });
     });
   }
 
   /**
    * This method navigate the user to demographic page if user clicks on Add New applicant.
    */
-   async onNewApplication() {
+  async onNewApplication() {
     //first check if data capture languages are in session or not
     const dataCaptureLangsFromSession = localStorage.getItem(appConstants.DATA_CAPTURE_LANGUAGES);
     console.log(`dataCaptureLangsFromSession: ${dataCaptureLangsFromSession}`);
@@ -606,17 +606,17 @@ export class PreviewComponent implements OnInit {
         this.isNavigateToDemographic = true;
       }
       if (this.isNavigateToDemographic) {
-        let dataCaptureLanguagesLabels = Utils.getLanguageLabels(localStorage.getItem(appConstants.DATA_CAPTURE_LANGUAGES), 
+        let dataCaptureLanguagesLabels = Utils.getLanguageLabels(localStorage.getItem(appConstants.DATA_CAPTURE_LANGUAGES),
           localStorage.getItem(appConstants.LANGUAGE_CODE_VALUES));
         localStorage.setItem(appConstants.DATA_CAPTURE_LANGUAGE_LABELS, JSON.stringify(dataCaptureLanguagesLabels));
         this.navigateToDemographic();
       }
     }
   }
-  
+
   openLangSelectionPopup(mandatoryLanguages: string[], minLanguage: number, maxLanguage: number) {
     return new Promise((resolve) => {
-      const popupAttributes = Utils.getLangSelectionPopupAttributes(this.dataCaptureLangsDir[0], this.dataCaptureLabels, 
+      const popupAttributes = Utils.getLangSelectionPopupAttributes(this.dataCaptureLangsDir[0], this.dataCaptureLabels,
         mandatoryLanguages, minLanguage, maxLanguage, this.userPrefLanguage);
       const dialogRef = this.openDialog(popupAttributes, "550px", "350px");
       dialogRef.afterClosed().subscribe((res) => {
@@ -639,9 +639,9 @@ export class PreviewComponent implements OnInit {
    * @private
    * @memberof PreviewComponent
    */
-   private showErrorMessage(error: any) {
+  private showErrorMessage(error: any) {
     const titleOnError = this.errorlabels.errorLabel;
-    const message = Utils.createErrorMessage(error, this.errorlabels, this.apiErrorCodes, this.configService); 
+    const message = Utils.createErrorMessage(error, this.errorlabels, this.apiErrorCodes, this.configService);
     const body = {
       case: "ERROR",
       title: titleOnError,
@@ -663,9 +663,9 @@ export class PreviewComponent implements OnInit {
     return dialogRef;
   }
   navigateDashboard() {
-      this.canDeactivateFlag = false;
-      this.router.navigate([`${this.userPreferredLangCode}/dashboard`]);
-       }
+    this.canDeactivateFlag = false;
+    this.router.navigate([`${this.userPreferredLangCode}/dashboard`]);
+  }
 
   navigateToDemographic() {
     localStorage.setItem(appConstants.NEW_APPLICANT, "true");
