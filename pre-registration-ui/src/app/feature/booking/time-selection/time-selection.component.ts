@@ -70,6 +70,8 @@ export class TimeSelectionComponent
   afternoonSlotAvailable: boolean = false;
   morningSlotAvailable: boolean = false;
   name = "";
+  firstName = "";
+   lastName = "";
   applicationStatus = "";
   constructor(
     private bookingService: BookingService,
@@ -104,6 +106,12 @@ export class TimeSelectionComponent
     this.name = this.configService.getConfigByKey(
       appConstants.CONFIG_KEYS.preregistration_identity_name
     );
+    this.firstName = this.configService.getConfigByKey(
+          appConstants.CONFIG_KEYS.preregistration_identity_firstName
+        );
+        this.lastName = this.configService.getConfigByKey(
+          appConstants.CONFIG_KEYS.preregistration_identity_lastNname
+        );
     this.dataService
       .getI18NLanguageFiles(this.userPreferredLangCode)
       .subscribe((response) => {
@@ -210,25 +218,21 @@ export class TimeSelectionComponent
       let filteredLangs = applicationLanguages.filter(applicationLang => 
         applicationLang == this.userPreferredLangCode
       );
+       let fullNameConcat = "";
       if (filteredLangs.length > 0) {
-        let nameValues = demographicData[this.name];
-        nameValues.forEach(nameVal => {
-          if (nameVal["language"] == this.userPreferredLangCode) {
-            nameList.fullName = nameVal["value"];
-          }
-        });  
+        for (var names of this.name.split(",")) {
+                  let nameValues = demographicData[names];
+                  nameValues.forEach(nameVal => {
+                    if (nameVal["language"] == this.userPreferredLangCode) {
+                      fullNameConcat += nameVal["value"] + " ";
+                    }
+                  });
+                }
+                nameList.fullName = fullNameConcat;
       } else {
-        if (demographicData[this.name] && demographicData[this.name].length > 0) {
-          nameList.fullName = demographicData[this.name][0].value;
-        } else {
-          nameList.fullName = user.request.applicationId;
-        }
-      }
-      if (user.request.preRegistrationId) {
-        nameList.preRegId = user.request.preRegistrationId;
-      } else {
-        nameList.preRegId = user.request.applicationId;
-      }
+                nameList.fullName =
+                  demographicData[this.firstName][0].value + " " + demographicData[this.lastName][0].value;
+              }
       nameList.status = user.request.statusCode;
       nameList.postalCode = demographicData["postalCode"];
       nameList.registrationCenter = regCenterInfo;
@@ -640,7 +644,7 @@ export class TimeSelectionComponent
             })
             .afterClosed()
             .subscribe(() => {
-              this.temp.forEach((name) => {});
+              this.temp.forEach((name) => { });
               this.bookingService.setSendNotification(true);
               const url = Utils.getURL(this.router.url, "summary", 3);
               if (this.router.url.includes("multiappointment")) {
