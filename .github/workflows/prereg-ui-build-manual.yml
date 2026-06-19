@@ -1,7 +1,13 @@
-name: Pre-registration-ui manual build upon a push
+name: Pre-registration-ui manual build
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Message for manually triggering'
+        required: false
+        default: 'Triggered for Updates'
+        type: string
 
   push:
     branches:
