@@ -233,6 +233,11 @@ export class TimeSelectionComponent
                 nameList.fullName =
                   demographicData[this.firstName][0].value + " " + demographicData[this.lastName][0].value;
               }
+         if (user.request.preRegistrationId) {
+         nameList.preRegId = user.request.preRegistrationId;
+         } else {
+         nameList.preRegId = user.request.applicationId;
+         }
       nameList.status = user.request.statusCode;
       nameList.postalCode = demographicData["postalCode"];
       nameList.registrationCenter = regCenterInfo;
