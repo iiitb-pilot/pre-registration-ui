@@ -389,8 +389,12 @@ export class DashBoardComponent implements OnInit, OnDestroy {
           dataAvailableLanguages,
           this.userPreferredLangCode
         );
-        const firstNameField = applicantResponse["demographicMetadata"][this.name.split(",")[0]];
-          const lastNameField = applicantResponse["demographicMetadata"][this.name.split(",")[1]];
+        let firstNameField = null;
+        let lastNameField = null;
+       if (identityObj) {
+       firstNameField = identityObj[this.name.split(",")[0]];
+       lastNameField = identityObj[this.name.split(",")[1]];
+       }
             if (Array.isArray(firstNameField) && Array.isArray(lastNameField)) {
               firstNameField.forEach(fld => {
             if (fld.language == this.userPreferredLangCode) {
