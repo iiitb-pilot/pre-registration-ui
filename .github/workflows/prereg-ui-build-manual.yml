@@ -17,7 +17,7 @@ on:
 
 jobs:
   build-pre-registration-ui:
-    uses: iiitb-pilot/kattu/.github/workflows/npm-build.yml@develop
+    uses: iiitb-pilot/kattu/.github/workflows/npm-build.yml@master
     with:
       SERVICE_LOCATION: pre-registration-ui
       BUILD_ARTIFACT: pre-registration-ui
