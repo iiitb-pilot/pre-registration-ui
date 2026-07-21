@@ -142,11 +142,11 @@ export class DashBoardComponent implements OnInit, OnDestroy {
       appConstants.CONFIG_KEYS.preregistration_identity_name
     );
     this.firstName = this.configService.getConfigByKey(
-          appConstants.CONFIG_KEYS.preregistration_identity_firstName
-        );
-        this.lastName = this.configService.getConfigByKey(
-          appConstants.CONFIG_KEYS.preregistration_identity_lastNname
-        );
+      appConstants.CONFIG_KEYS.preregistration_identity_firstName
+    );
+    this.lastName = this.configService.getConfigByKey(
+      appConstants.CONFIG_KEYS.preregistration_identity_lastNname
+    );
     this.getIdentityJsonFormat();
   }
 
@@ -201,7 +201,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
       .subscribe(
         async (applicants: any) => {
           this.loggerService.info("applicants in dashboard", applicants);
-          //console.log(applicants);
+          console.log(applicants);
           if (
             applicants[appConstants.RESPONSE] &&
             applicants[appConstants.RESPONSE] !== null
@@ -210,7 +210,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
 
             this.allApplicants =
               applicants[appConstants.RESPONSE][
-                appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.allApplications
+              appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.allApplications
               ];
             for (
               let index = 0;
@@ -264,15 +264,15 @@ export class DashBoardComponent implements OnInit, OnDestroy {
   private createAppointmentDateTime(applicant: any) {
     const date =
       applicant[
-        appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.appointmentDate
+      appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.appointmentDate
       ];
     const fromTime =
       applicant[
-        appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.slotFromTime
+      appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.slotFromTime
       ];
     const toTime =
       applicant[
-        appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.slotToTime
+      appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.slotToTime
       ];
     let appointmentDateTime = date + " ( " + fromTime + " - " + toTime + " )";
     return appointmentDateTime;
@@ -292,7 +292,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
       .split(",");
     const date = Utils.getBookingDateTime(
       applicant[
-        appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.appointmentDate
+      appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.appointmentDate
       ],
       "",
       this.userPreferredLangCode,
@@ -311,14 +311,14 @@ export class DashBoardComponent implements OnInit, OnDestroy {
    * @memberof DashBoardComponent
    */
   private createAppointmentTime(applicant: any) {
-   const fromTime =
-    applicant[
-        appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp
-          .slotFromTime
+    const fromTime =
+      applicant[
+      appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp
+        .slotFromTime
       ];
     const toTime =
-    applicant[
-        appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.slotToTime
+      applicant[
+      appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.slotToTime
       ];
     const fromTimeF = this.formatTime(fromTime);
     const toTimeF = this.formatTime(toTime);
@@ -326,18 +326,18 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     return appointmentTime;
   }
 
-    /**
-   * @description This method formats time from 24 hour format to 12 hour.
-   *
-   * @param {*} time
-   * @returns formattedTime
-   */
-   private formatTime(time : any) {
-    const formattedTime = new Date('1970-01-01T' + time + 'Z' )
-    .toLocaleTimeString('en-US',
-       {timeZone:'UTC',hour12:true,hour:'numeric',minute:'numeric'}
-   );
-   return formattedTime;
+  /**
+ * @description This method formats time from 24 hour format to 12 hour.
+ *
+ * @param {*} time
+ * @returns formattedTime
+ */
+  private formatTime(time: any) {
+    const formattedTime = new Date('1970-01-01T' + time + 'Z')
+      .toLocaleTimeString('en-US',
+        { timeZone: 'UTC', hour12: true, hour: 'numeric', minute: 'numeric' }
+      );
+    return formattedTime;
   }
 
   /**
@@ -351,11 +351,11 @@ export class DashBoardComponent implements OnInit, OnDestroy {
   async createApplicant(applicants: any, index: number) {
     const applicantResponse =
       applicants[appConstants.RESPONSE][
-        appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.allApplications
+      appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.allApplications
       ][index];
     let applicationId =
       applicantResponse[
-        appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.applicationId
+      appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.applicationId
       ];
     let applicantName = "";
     let dataCaptureLanguagesLabels = [];
@@ -389,39 +389,43 @@ export class DashBoardComponent implements OnInit, OnDestroy {
           dataAvailableLanguages,
           this.userPreferredLangCode
         );
+        let nameFields = this.name.split(",").map(f => f.trim()).filter(f => !!f);
         let firstNameField = null;
         let lastNameField = null;
-       if (identityObj) {
-       firstNameField = identityObj[this.name.split(",")[0]];
-       lastNameField = identityObj[this.name.split(",")[1]];
-       }
-            if (Array.isArray(firstNameField) && Array.isArray(lastNameField)) {
-              firstNameField.forEach(fld => {
-            if (fld.language == this.userPreferredLangCode) {
-              applicantName = fld.value + " ";
-                     }
-                   });
-                   lastNameField.forEach(fld => {
-                     if (fld.language == this.userPreferredLangCode) {
-                       applicantName = applicantName + fld.value;
-            }
-          });
-          if (applicantName == "" && dataAvailableLanguages.length > 0) {
-            firstNameField.forEach(fld => {
-                      if (fld.language == dataAvailableLanguages[0]) {
-                        applicantName = fld.value + " ";
-                      }
-                    });
-                    lastNameField.forEach(fld => {
-              if (fld.language == dataAvailableLanguages[0]) {
-                applicantName = applicantName + fld.value;
+        if (identityObj) {
+          firstNameField = identityObj[nameFields[0]];
+          if (nameFields.length > 1) {
+            lastNameField = identityObj[nameFields[1]];
+          }
+        }
+
+        const pickValue = (fieldArr) => {
+          let val = "";
+          if (Array.isArray(fieldArr)) {
+            fieldArr.forEach(fld => {
+              if (fld.language == this.userPreferredLangCode) {
+                val = fld.value;
               }
             });
+            if (val === "" && dataAvailableLanguages.length > 0) {
+              fieldArr.forEach(fld => {
+                if (fld.language == dataAvailableLanguages[0]) {
+                  val = fld.value;
+                }
+              });
+            }
+          } else if (typeof fieldArr === "string") {
+            val = fieldArr;
           }
+          return val;
+        };
+
+        if (nameFields.length > 1) {
+          const first = pickValue(firstNameField);
+          const last = pickValue(lastNameField);
+          applicantName = (first || last) ? (first + (first && last ? " " : "") + last) : "";
         } else {
-           if (firstNameField && lastNameField )
-                applicantName = firstNameField + "  " + lastNameField;
-          else applicantName = "";
+          applicantName = pickValue(firstNameField);
         }
         dataCaptureLanguagesLabels = Utils.getLanguageLabels(
           JSON.stringify(dataAvailableLanguages),
@@ -453,7 +457,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
         : "-",
       status:
         applicantResponse[
-          appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.bookingStatusCode
+        appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.bookingStatusCode
         ],
       regDto: applicantResponse[
         appConstants.DASHBOARD_RESPONSE_KEYS.allApplicationsResp.appointmentDate
@@ -486,10 +490,10 @@ export class DashBoardComponent implements OnInit, OnDestroy {
           //console.log(resp);
           resolve(resp);
         },
-        (error) => {
-          this.showErrorMessage(error);
-          resolve(false);
-        });
+          (error) => {
+            this.showErrorMessage(error);
+            resolve(false);
+          });
     });
   }
   /**
@@ -687,62 +691,62 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     }
     if (element.bookingType == appConstants.NEW_PREREGISTRATION) {
       const subs = this.dataStorageService
-      .deletePreRegistration(element.applicationID)
-      .subscribe(
-        (response) => {
-          if (!response["errors"]) {
-            this.showSuccessMsg(element)
+        .deletePreRegistration(element.applicationID)
+        .subscribe(
+          (response) => {
+            if (!response["errors"]) {
+              this.showSuccessMsg(element)
+            }
+          },
+          (error) => {
+            this.showErrorMessage(
+              error,
+              this.languagelabels.title_error,
+              this.languagelabels.deletePreregistration.msg_could_not_deleted
+            );
           }
-        },
-        (error) => {
-          this.showErrorMessage(
-            error,
-            this.languagelabels.title_error,
-            this.languagelabels.deletePreregistration.msg_could_not_deleted
-          );
-        }
-      );
+        );
       this.subscriptions.push(subs);
-    }  
+    }
     if (element.bookingType == appConstants.LOST_FORGOTTEN_UIN) {
       const subs = this.dataStorageService
-      .deleteLostUin(element.applicationID)
-      .subscribe(
-        (response) => {
-          if (!response["errors"]) {
-            this.showSuccessMsg(element)
+        .deleteLostUin(element.applicationID)
+        .subscribe(
+          (response) => {
+            if (!response["errors"]) {
+              this.showSuccessMsg(element)
+            }
+          },
+          (error) => {
+            this.showErrorMessage(
+              error,
+              this.languagelabels.title_error,
+              this.languagelabels.deletePreregistration.msg_could_not_deleted
+            );
           }
-        },
-        (error) => {
-          this.showErrorMessage(
-            error,
-            this.languagelabels.title_error,
-            this.languagelabels.deletePreregistration.msg_could_not_deleted
-          );
-        }
-      );
+        );
       this.subscriptions.push(subs);
-    } 
+    }
     if (element.bookingType == appConstants.UPDATE_REGISTRATION) {
       const subs = this.dataStorageService
-      .deleteUpdateRegistration(element.applicationID)
-      .subscribe(
-        (response) => {
-          if (!response["errors"]) {
-            this.showSuccessMsg(element)
+        .deleteUpdateRegistration(element.applicationID)
+        .subscribe(
+          (response) => {
+            if (!response["errors"]) {
+              this.showSuccessMsg(element)
+            }
+          },
+          (error) => {
+            this.showErrorMessage(
+              error,
+              this.languagelabels.title_error,
+              this.languagelabels.deletePreregistration.msg_could_not_deleted
+            );
           }
-        },
-        (error) => {
-          this.showErrorMessage(
-            error,
-            this.languagelabels.title_error,
-            this.languagelabels.deletePreregistration.msg_could_not_deleted
-          );
-        }
-      );
+        );
       this.subscriptions.push(subs);
-    }  
-    
+    }
+
   }
 
   showSuccessMsg(element) {
@@ -772,7 +776,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
       appointmentTime = element.regDto["time_slot_from"];
     }
     console.log(element.regDto);
-    
+
     const subs = this.dataStorageService
       .cancelAppointment(
         new RequestModel(appConstants.IDS.booking, element.regDto),
@@ -1076,7 +1080,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
   private sendNotification(prid, appDate, appDateTime) {
     let userDetails;
     return new Promise((resolve, reject) => {
-      this.subscriptions.push(  
+      this.subscriptions.push(
         this.dataStorageService.getUser(prid).subscribe(
           (response) => {
             if (response[appConstants.RESPONSE]) {
@@ -1084,8 +1088,8 @@ export class DashBoardComponent implements OnInit, OnDestroy {
                 response[appConstants.RESPONSE].demographicDetails.identity;
               console.log(userDetails);
               const fullName = userDetails[this.name.split(",")[0]][0].value + " " + userDetails[this.name.split(",")[1]][0].value;
-               const notificationDto = new NotificationDtoModel(
-                  fullName,
+              const notificationDto = new NotificationDtoModel(
+                fullName,
                 prid,
                 appDate,
                 appDateTime,
@@ -1132,7 +1136,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
   private sendOtherNotification(prid, appDate, appDateTime) {
     let userDetails;
     return new Promise((resolve, reject) => {
-      this.subscriptions.push(  
+      this.subscriptions.push(
         this.dataStorageService.getApplicationDetails(prid).subscribe(
           (response) => {
             if (response[appConstants.RESPONSE]) {
@@ -1152,8 +1156,8 @@ export class DashBoardComponent implements OnInit, OnDestroy {
                 prid,
                 appDate,
                 appDateTime,
-                !isloginIdEmail? loginId: null,
-                isloginIdEmail? loginId: null,
+                !isloginIdEmail ? loginId : null,
+                isloginIdEmail ? loginId : null,
                 null,
                 true
               );
@@ -1228,7 +1232,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
         }
       )
     );
-   } 
+  }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
